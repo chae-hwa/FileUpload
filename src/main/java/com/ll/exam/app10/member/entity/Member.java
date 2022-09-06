@@ -1,13 +1,23 @@
 package com.ll.exam.app10.member.entity;
 
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import com.ll.exam.app10.base.entity.BaseEntity;
+import lombok.*;
+import lombok.experimental.SuperBuilder;
+import javax.persistence.Column;
+import javax.persistence.Entity;
 
 
-public class Member {
-
-
+@Entity
+@Setter
+@Getter
+@AllArgsConstructor
+@NoArgsConstructor
+@SuperBuilder
+@ToString(callSuper = true)
+public class Member extends BaseEntity {
+    @Column(unique = true)
+    private String username;
+    private String password;
+    private String email;
+    private String profileImg;
 }
