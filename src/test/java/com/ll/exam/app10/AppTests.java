@@ -51,9 +51,22 @@ class AppTests {
 
 	@Test
 	@DisplayName("회원의 수")
-	@Rollback(false)
 	void t2() throws Exception {
 		long count = memberService.count();
 		assertThat(count).isGreaterThan(0);
+	}
+
+	@Test
+	@DisplayName("user1로 로그인 후 프로필페이지에 접속하면 user1의 이메일이 보여야 한다.")
+	@Rollback(false)
+	void t3() throws Exception {
+		// mockMvc로 로그인 처리
+	}
+
+	@Test
+	@DisplayName("user4로 로그인 후 프로필페이지에 접속하면 user4의 이메일이 보여야 한다.")
+	@Rollback(false)
+	void t4() throws Exception {
+		// mockMvc로 로그인 처리
 	}
 }
