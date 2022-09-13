@@ -33,16 +33,19 @@ public class MemberService implements UserDetailsService {
     }
 
     public Member join(String username, String password, String email, MultipartFile profileImg) {
-        String profileImgRelPath = "members/" + UUID.randomUUID().toString() + ".png";
-        File profileImgFile = new File(genFileDirPath + "/" + profileImgRelPath);
+        String profileImgDirName = "member";
+        String fileName = UUID.randomUUID().toString() + ".png";
+        String profileImgDirPath = genFileDirPath + "/" + profileImgDirName;
+        String profileImgFilePath = profileImgDirPath + "/" + fileName;
 
-        profileImgFile.mkdirs(); // 관련된 폴더가 혹시나 없다면 만들어준다.
+        new File(profileImgDirPath).mkdirs(); // 폴더가 혹시나 없다면 만들어준다.
 
         try {
-            profileImg.transferTo(profileImgFile);
+            profileImg.transferTo(new File(profileImgFilePath));
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+        String profileImgRelPath = profileImgDirName + "/" + fileName;
 
         Member member = Member.builder()
                 .username(username)
