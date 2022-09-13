@@ -2,6 +2,7 @@ package com.ll.exam.app10;
 
 import com.ll.exam.app10.home.controller.HomeController;
 import com.ll.exam.app10.member.controller.MemberController;
+import com.ll.exam.app10.member.entity.Member;
 import com.ll.exam.app10.member.service.MemberService;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -138,9 +139,16 @@ class AppTests {
 								.characterEncoding("UTF-8"))
 				.andDo(print());
 
-		// 5번회원이 생성되어야 함, 테스트
-		// 여기 마저 구현
+		resultActions
+				.andExpect(status().is3xxRedirection())
+				.andExpect(redirectedUrl("/member/profile"))
+				.andExpect(handler().handlerType(MemberController.class))
+				.andExpect(handler().methodName("join"));
 
-		// 5번회원의 프로필 이미지 제거
+		Member member = memberService.getMemberById(5L);
+
+		assertThat(member).isNotNull();
+
+		memberService.removeProfileImg(member);
 	}
 }
