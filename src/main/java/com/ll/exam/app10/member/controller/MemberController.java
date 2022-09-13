@@ -31,6 +31,11 @@ public class MemberController {
         return "member/join";
     }
 
+    @GetMapping("/login")
+    public String showLogin(){
+        return "member/login";
+    }
+
     @PostMapping("/join")
     public String join(HttpServletRequest req, String username, String password, String email, MultipartFile profileImg, HttpSession session) {
 
