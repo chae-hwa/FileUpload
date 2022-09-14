@@ -1,40 +1,55 @@
-<h1>로그인</h1>
+<!DOCTYPE html>
+<html layout:decorate="~{layout/layout.html}">
 
-<script>
-    function LoginForm__submit(form) {
-        form.username.value = form.username.value.trim();
+<head>
+    <title>로그인</title>
+</head>
 
-        if (form.username.value.length == 0) {
-            alert("아이디를 입력해주세요.");
-            form.username.focus();
-            return;
-        }
+<body>
+<section layout:fragment="content">
+    <div class="container">
+        <h1>로그인</h1>
 
-        form.password.value = form.password.value.trim();
+        <script>
+            function LoginForm__submit(form) {
+                form.username.value = form.username.value.trim();
 
-        if (form.password.value.length == 0) {
-            alert("비밀번호를 입력해주세요.");
-            form.password.focus();
-            return;
-        }
+                if (form.username.value.length == 0) {
+                    alert("아이디를 입력해주세요.");
+                    form.username.focus();
+                    return;
+                }
 
-        form.submit();
-    }
+                form.password.value = form.password.value.trim();
 
-</script>
+                if (form.password.value.length == 0) {
+                    alert("비밀번호를 입력해주세요.");
+                    form.password.focus();
+                    return;
+                }
+
+                form.submit();
+            }
+
+        </script>
 
 
-<form th:action method="POST" onSubmit="LoginForm__submit(this); return false;">
-    <div>
-        <span>아이디</span>
-        <input type="text" name="username">
+        <form th:action method="POST" onsubmit="LoginForm__submit(this); return false;">
+            <div>
+                <span>아이디</span>
+                <input type="text" name="username">
+            </div>
+            <div>
+                <span>비밀번호</span>
+                <input type="password" name="password">
+            </div>
+            <div>
+                <span>로그인</span>
+                <input type="submit" value="로그인">
+            </div>
+        </form>
     </div>
-    <div>
-        <span>비밀번호</span>
-        <input type="password" name="password">
-    </div>
-    <div>
-        <span>로그인</span>
-        <input type="submit" value="로그인">
-    </div>
-</form>
+
+</section>
+</body>
+</html>

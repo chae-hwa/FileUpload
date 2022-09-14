@@ -1,52 +1,70 @@
-<h1>회원가입</h1>
+<!DOCTYPE html>
+<html layout:decorate="~{layout/layout.html}">
 
-<script>
-    function Join__submit(form){
-        form.username.value == form.username.value.trim();
+<head>
+    <title>회원가입</title>
+</head>
 
-        if( form.username.value.length == 0){
-            alert("아이디를 입력해주세요.");
-            form.username.focus();
-            return;
-        }
+<body>
+<section layout:fragment="content">
+    <div class="container">
+        <h1>회원가입</h1>
 
-        form.password.value = form.password.value.trim();
+        <script>
+            function JoinForm__submit(form) {
+                form.username.value = form.username.value.trim();
 
-        if ( form.password.value.length == 0 ) {
-            alert("비밀번호를 입력해주세요.");
-            form.password.focus();
-            return;
-        }
+                if (form.username.value.length == 0) {
+                    alert("아이디를 입력해주세요.");
+                    form.username.focus();
+                    return;
+                }
 
-        form.email.value = form.email.value.trim();
+                form.password.value = form.password.value.trim();
 
-        if ( form.email.value.length == 0 ) {
-            alert("이메일을 입력해주세요.");
-            form.email.focus();
-            return;
-        }
+                if (form.password.value.length == 0) {
+                    alert("비밀번호를 입력해주세요.");
+                    form.password.focus();
+                    return;
+                }
 
-        form.submit();
+                form.email.value = form.email.value.trim();
 
-    }
-</script>
+                if (form.email.value.length == 0) {
+                    alert("이메일을 입력해주세요.");
+                    form.email.focus();
+                    return;
+                }
 
+                form.submit();
+            }
+        </script>
 
-<form th:action method="POST" enctype="multipart/form-data" onsubmit="JoinForm__submit(this); return false;">
-    <div>
-        <span>아이디</span>
-        <input type="text" name="username">
+        <form>
+            <div>
+                <span>아이디</span>
+                <input type="text" name="username">
+            </div>
+            <div>
+                <span>비밀번호</span>
+                <input type="password" name="password">
+            </div>
+            <div>
+                <span>이메일</span>
+                <input type="email" name="email">
+            </div>
+            <div>
+                <span>프로필이미지</span>
+                <input type="file" name="profileImg" accept="image/png, image/gif, image/jpeg">
+            </div>
+            <div>
+                <span>가입</span>
+                <input type="submit" value="가입">
+            </div>
+        </form>
+
     </div>
-    <div>
-        <span>비밀번호</span>
-        <input type="password" name="password">
-    </div>
-    <div>
-        <span>프로필 이미지</span>
-        <input type="file" name="profileImg" accept="image/png, image/gif, image/jpeg">
-    </div>
-    <div>
-        <span>가입</span>
-        <input type="submit" value="가입">
-    </div>
-</form>
+</section>
+</body>
+
+</html>
