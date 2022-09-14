@@ -2,8 +2,10 @@ package com.ll.exam.app10.home.controller;
 
 import com.ll.exam.app10.member.entity.Member;
 import com.ll.exam.app10.member.service.MemberService;
+import com.ll.exam.app10.security.dto.MemberContext;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -25,11 +27,16 @@ public class HomeController {
         return "home/about";
     }
 
-    @PreAuthorize("isAuthenticated()")
+
     @GetMapping("/currentUserOrigin")
     @ResponseBody
     public Principal currentUserOrigin(Principal principal) {
         return principal;
     }
 
+    @GetMapping("/currentUser")
+    @ResponseBody
+    public MemberContext currentUser(@AuthenticationPrincipal MemberContext memberContext) {
+        return memberContext;
+    }
 }
