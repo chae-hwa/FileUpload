@@ -3,6 +3,7 @@ package com.ll.exam.app10.member.service;
 
 import com.ll.exam.app10.member.Repository.MemberRepository;
 import com.ll.exam.app10.member.entity.Member;
+import com.ll.exam.app10.util.Util;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.GrantedAuthority;
@@ -33,8 +34,11 @@ public class MemberService implements UserDetailsService {
     }
 
     public Member join(String username, String password, String email, MultipartFile profileImg) {
-        String profileImgDirName = "member";
-        String fileName = UUID.randomUUID().toString() + ".png";
+        String profileImgDirName = "member/" + Util.date.getCurrentDateFormatted("yyyy_MM_dd");
+
+        String ext = Util.file.getExt(profileImg.getOriginalFilename());
+
+        String fileName = UUID.randomUUID() +"." + ext;
         String profileImgDirPath = genFileDirPath + "/" + profileImgDirName;
         String profileImgFilePath = profileImgDirPath + "/" + fileName;
 
