@@ -14,9 +14,16 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.http.CacheControl;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.util.concurrent.TimeUnit;
 import javax.servlet.http.HttpSession;
 import java.security.Principal;
 
@@ -70,7 +77,11 @@ public class MemberController {
     }
 
     @GetMapping("/profile/img/{id}")
-    public String showProfileImg(@PathVariable Long id) {
-        return "redirect:" + memberService.getMemberById(id).getProfileImgUrl();
+    public ResponseEntity<Object> showProfileImg(@PathVariable Long id) throws URISyntaxException {
+        URI redirectUri = new URI(memberService.getMemberById(id).getProfileImgUrl());
+        HttpHeaders httpHeaders = new HttpHeaders();
+        httpHeaders.setLocation(redirectUri);
+        httpHeaders.setCacheControl(CacheControl.maxAge(60 * 60 * 1, TimeUnit.SECONDS));
+        return new ResponseEntity<>(httpHeaders, HttpStatus.FOUND);
     }
 }
