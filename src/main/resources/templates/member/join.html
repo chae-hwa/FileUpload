@@ -38,9 +38,11 @@
 
                 form.submit();
             }
+
         </script>
 
-        <form>
+
+        <form th:action method="POST" enctype="multipart/form-data" onsubmit="JoinForm__submit(this); return false;">
             <div>
                 <span>아이디</span>
                 <input type="text" name="username">
@@ -62,9 +64,7 @@
                 <input type="submit" value="가입">
             </div>
         </form>
-
     </div>
 </section>
 </body>
-
 </html>

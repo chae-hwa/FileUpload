@@ -10,6 +10,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.multipart.MultipartFile;
@@ -34,15 +35,8 @@ public class MemberController {
     }
 
     @PreAuthorize("isAnonymous()")
-    @GetMapping("/login")
-    public String showLogin(){
-        return "member/login";
-    }
-
-    @PreAuthorize("isAnonymous()")
     @PostMapping("/join")
-    public String join(HttpServletRequest req, String username, String password, String email, MultipartFile profileImg, HttpSession session) {
-
+    public String join(HttpServletRequest req, String username, String password, String email, MultipartFile profileImg) {
         Member oldMember = memberService.getMemberByUsername(username);
 
         String passwordClearText = password;
@@ -54,19 +48,29 @@ public class MemberController {
 
         Member member = memberService.join(username, password, email, profileImg);
 
-        try{
+        try {
             req.login(username, passwordClearText);
-        } catch (ServletException e){
+        } catch (ServletException e) {
             throw new RuntimeException(e);
         }
 
         return "redirect:/member/profile";
     }
 
+    @PreAuthorize("isAnonymous()")
+    @GetMapping("/login")
+    public String showLogin(){
+        return "member/login";
+    }
+
     @PreAuthorize("isAuthenticated()")
     @GetMapping("/profile")
     public String showProfile() {
-
         return "member/profile";
+    }
+
+    @GetMapping("/profile/img/{id}")
+    public String showProfileImg(@PathVariable Long id) {
+        return "redirect:" + memberService.getMemberById(id).getProfileImgUrl();
     }
 }

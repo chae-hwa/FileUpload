@@ -23,17 +23,15 @@ public class HomeController {
     }
 
     @GetMapping("/about")
-    public String showAbout(){
+    public String showAbout() {
         return "home/about";
     }
-
 
     @GetMapping("/currentUserOrigin")
     @ResponseBody
     public Principal currentUserOrigin(Principal principal) {
         return principal;
     }
-
     @GetMapping("/currentUser")
     @ResponseBody
     public MemberContext currentUser(@AuthenticationPrincipal MemberContext memberContext) {

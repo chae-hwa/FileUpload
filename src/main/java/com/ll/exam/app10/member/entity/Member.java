@@ -24,7 +24,7 @@ public class Member extends BaseEntity {
     private String profileImg;
 
     public void removeProfileImgOnStorage() {
-        if(profileImg == null || profileImg.trim().length() == 0) return;
+        if (profileImg == null || profileImg.trim().length() == 0) return;
 
         String profileImgPath = getProfileImgPath();
 

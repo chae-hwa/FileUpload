@@ -42,7 +42,7 @@ public class MemberService {
 
         String ext = Util.file.getExt(profileImg.getOriginalFilename());
 
-        String fileName = UUID.randomUUID() +"." + ext;
+        String fileName = UUID.randomUUID() + "." + ext;
         String profileImgDirPath = genFileDirPath + "/" + profileImgDirName;
         String profileImgFilePath = profileImgDirPath + "/" + fileName;
 
@@ -53,6 +53,7 @@ public class MemberService {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+
         String profileImgRelPath = profileImgDirName + "/" + fileName;
 
         Member member = Member.builder()
@@ -71,6 +72,8 @@ public class MemberService {
         return memberRepository.findById(id).orElse(null);
     }
 
+
+
     public Member join(String username, String password, String email) {
         Member member = Member.builder()
                 .username(username)
@@ -88,7 +91,7 @@ public class MemberService {
     }
 
     public void removeProfileImg(Member member) {
-        member.removeProfileImgOnStorage(); // 파일 삭제
+        member.removeProfileImgOnStorage(); // 파일삭제
         member.setProfileImg(null);
 
         memberRepository.save(member);
