@@ -55,7 +55,7 @@ public class MemberContext extends User implements OAuth2User {
         return this.getAttribute(this.userNameAttributeName).toString();
     }
 
-    public String getProfileImgRedirectUrl() {
+    public String getProfileImgRedirectUrl() { //이미지 캐시 관련
         return "/member/profile/img/" + getId() + "?cacheKey=" + getModifyDate().toString();
     }
 }
