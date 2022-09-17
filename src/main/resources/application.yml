@@ -35,4 +35,7 @@ spring:
     hibernate:
       ddl-auto: create
 custom:
-  genFileDirPath: c:/img/app10
+  genFileDirPath: c:/temp/app10
+  logging:
+    level:
+      com.ll.exam.app10.app: debug

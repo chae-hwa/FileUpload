@@ -16,12 +16,14 @@ import org.springframework.security.oauth2.core.OAuth2AuthenticationException;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import lombok.extern.slf4j.Slf4j;
 
 import java.util.*;
 
 @Service
 @Transactional(readOnly = true)
 @RequiredArgsConstructor
+@Slf4j
 public class OAuth2UserService  extends DefaultOAuth2UserService {
     @Autowired
     private MemberRepository memberRepository;
@@ -51,9 +53,12 @@ public class OAuth2UserService  extends DefaultOAuth2UserService {
         if (isNew(oauthType, oauthId)) {
             switch (oauthType) {
                 case "KAKAO" -> {
+                    log.debug("attributes : " + attributes);
+
                     Map attributesProperties = (Map) attributes.get("properties");
                     Map attributesKakaoAcount = (Map) attributes.get("kakao_account");
                     String nickname = (String) attributesProperties.get("nickname");
+                    String profile_image = (String) attributesProperties.get("profile_image");
                     String email = "%s@kakao.com".formatted(oauthId);
                     String username = "KAKAO_%s".formatted(oauthId);
 
@@ -69,7 +74,7 @@ public class OAuth2UserService  extends DefaultOAuth2UserService {
 
                     memberRepository.save(member);
 
-                    memberService.setProfileImgByUrl(member, "https://picsum.photos/200/300");
+                    memberService.setProfileImgByUrl(member, profile_image);
                 }
             }
         } else {
