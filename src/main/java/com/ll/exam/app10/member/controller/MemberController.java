@@ -36,6 +36,12 @@ public class MemberController {
     private final PasswordEncoder passwordEncoder;
 
     @PreAuthorize("isAnonymous()")
+    @GetMapping("/login")
+    public String showLogin() {
+        return "member/login";
+    }
+
+    @PreAuthorize("isAnonymous()")
     @GetMapping("/join")
     public String showJoin() {
         return "member/join";
@@ -64,10 +70,20 @@ public class MemberController {
         return "redirect:/member/profile";
     }
 
-    @PreAuthorize("isAnonymous()")
-    @GetMapping("/login")
-    public String showLogin(){
-        return "member/login";
+    @PreAuthorize("isAuthenticated()")
+    @GetMapping("/modify")
+    public String showModify() {
+        return "member/modify";
+    }
+
+    @PreAuthorize("isAuthenticated()")
+    @PostMapping("/modify")
+    public String modify(@AuthenticationPrincipal MemberContext context, String email, MultipartFile profileImg) {
+        Member member = memberService.getMemberById(context.getId());
+
+        memberService.modify(member, email, profileImg);
+
+        return "redirect:/member/profile";
     }
 
     @PreAuthorize("isAuthenticated()")
