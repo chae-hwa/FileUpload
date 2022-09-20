@@ -3,6 +3,7 @@ package com.ll.exam.app10.article.controller;
 import com.ll.exam.app10.article.controller.input.ArticleForm;
 import com.ll.exam.app10.article.entity.Article;
 import com.ll.exam.app10.article.service.ArticleService;
+import com.ll.exam.app10.fileUpload.service.GenFileService;
 import com.ll.exam.app10.security.dto.MemberContext;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -27,6 +28,7 @@ import java.util.Map;
 public class ArticleController {
 
     private final ArticleService articleService;
+    private final GenFileService genFileService;
 
     @PreAuthorize("isAuthenticated()")
     @GetMapping("/write")
@@ -41,12 +43,11 @@ public class ArticleController {
         if (bindingResult.hasErrors()) {
             return "article/write";
         }
+
         Map<String, MultipartFile> fileMap = multipartRequest.getFileMap();
-
-        log.debug("fileMap : " + fileMap);
-
         Article article = articleService.write(memberContext.getId(), articleForm.getSubject(), articleForm.getContent());
 
+        genFileService.saveFiles(article, fileMap);
 
         return "작업중";
     }
