@@ -45,7 +45,7 @@ public class ArticleService {
 
         Map<String, GenFile> genFileMap = genFileService.getRelGenFileMap(article);
 
-        article.getExtra().put("age", 22);
+        article.getExtra().put("age__name__33", 22);
         article.getExtra().put("genFileMap", genFileMap);
 
 
