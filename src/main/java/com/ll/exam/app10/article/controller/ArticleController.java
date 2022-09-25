@@ -24,6 +24,8 @@ import org.springframework.web.server.ResponseStatusException;
 import javax.validation.Valid;
 import java.util.Map;
 
+import static com.ll.exam.app10.article.entity.QArticle.article;
+
 @Controller
 @RequestMapping("/article")
 @Slf4j
@@ -54,6 +56,7 @@ public class ArticleController {
         msg = Util.url.encode(msg);
         return "redirect:/article/%d?msg=%s".formatted(article.getId(), msg);
     }
+
     @PreAuthorize("isAuthenticated()")
     @GetMapping("/{id}")
     public String showDetail(Model model, @PathVariable Long id) {
@@ -79,8 +82,12 @@ public class ArticleController {
 
     @PreAuthorize("isAuthenticated()")
     @PostMapping("/{id}/modify")
-    @ResponseBody
-    public String modify(@AuthenticationPrincipal MemberContext memberContext, Model model, @PathVariable Long id, @Valid ArticleForm articleForm, MultipartRequest multipartRequest) {
+    @ResponseBody // 임시
+    public String modify(@AuthenticationPrincipal MemberContext memberContext,
+                         Model model, @PathVariable Long id,
+                         @Valid ArticleForm articleForm,
+                         MultipartRequest multipartRequest,
+                         @RequestParam Map<String, String> params) {
         Article article = articleService.getForPrintArticleById(id);
 
         if (memberContext.memberIsNot(article.getAuthor())) {
@@ -89,8 +96,8 @@ public class ArticleController {
 
         Map<String, MultipartFile> fileMap = multipartRequest.getFileMap();
 
+        genFileService.deleteFiles(article, params);
         RsData<Map<String, GenFile>> saveFilesRsData = genFileService.saveFiles(article, fileMap);
-
 
         articleService.modify(article, articleForm.getSubject(), articleForm.getContent());
 
