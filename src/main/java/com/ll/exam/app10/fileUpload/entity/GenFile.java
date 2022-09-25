@@ -35,6 +35,9 @@ public class GenFile extends BaseEntity {
         return "/gen/" + getFileDir() + "/" + getFileName();
     }
 
+    public String getDownloadUrl() {
+        return "/download/gen/" + getId();
+    }
     public void merge(GenFile other) {
         relTypeCode = other.getRelTypeCode();
         relId = other.getRelId();
